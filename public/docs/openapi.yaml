@@ -1,0 +1,334 @@
+openapi: 3.0.3
+info:
+  title: Api-Gestione-Coperture-Unifiber
+  description: 'Api per la gestione delle coperture Unifiber. Registrazione, Recupero e Versione.'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8301'
+paths:
+  /api/v1/coperture_unifiber_test/ricerca:
+    post:
+      summary: 'Ricerca delle coperture'
+      description: 'Ricerca una copertura Unifiber mediante i campi provincia, comune, particella, indirizzo e civico. Vengono restituiti 100 massimo risultati per chiamata con possibilità di paginazione. '
+      parameters:
+        -
+          in: query
+          name: page
+          description: 'Numero di pagina.'
+          example: null
+          required: false
+          schema:
+            type: number
+            description: 'Numero di pagina.'
+            example: null
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Non sei autorizzato. User o password errati.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Non sei autorizzato. User o password errati.'
+      tags:
+        - API
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_scala:
+                  type: string
+                  description: 'Rappresenta la codifica univoca per ogni singolo civico.'
+                  example: null
+                provincia:
+                  type: string
+                  description: 'Codice istat provincia.'
+                  example: null
+                comune:
+                  type: string
+                  description: 'Codice istat comune.'
+                  example: null
+                particella_top:
+                  type: string
+                  description: 'Descrizione della particella toponomastica.'
+                  example: null
+                indirizzo:
+                  type: string
+                  description: 'Descrizione della via (EGON).'
+                  example: null
+                per_page:
+                  type: number
+                  description: 'Risultati restituiti per pagina. Default 100.'
+                  example: null
+  '/api/v1/coperture_unifiber_test/storico/{id}':
+    get:
+      summary: 'Controllo lo storico di una copertura.'
+      description: 'Ricerca una copertura Unifiber mediante i campi id e ritorna lo storico dei cambiamenti subiti dalla registrazione di copertura dalla sua creazione.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Non sei autorizzato. User o password errati.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Non sei autorizzato. User o password errati.'
+      tags:
+        - API
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'Identificativo della copertura. Viene restuito durante la chiamata di inserimento/aggiornamento e di verifica.'
+        example: null
+        required: true
+        schema:
+          type: number
+  /api/v1/coperture_unifiber_test/registra:
+    post:
+      summary: 'Registra o aggiorna una copertura nel database.'
+      description: 'Inserisce o aggiorna una copertura unifiber. Il sistema genera l’aggiornamento della copertura basandosi sulla chiave primaria composta dai campi id_scala.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Non sei autorizzato. User o password errati.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Non sei autorizzato. User o password errati.'
+      tags:
+        - API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_scala:
+                  type: string
+                  description: 'Rappresenta la codifica univoca per ogni singolo civico.'
+                  example: null
+                regione:
+                  type: number
+                  description: 'Codice istat regione.'
+                  example: null
+                provincia:
+                  type: number
+                  description: 'Codice istat provincia.'
+                  example: null
+                comune:
+                  type: number
+                  description: 'Codice istat comune.'
+                  example: null
+                comune_descrizione:
+                  type: string
+                  description: 'Nome esteso del comune.'
+                  example: null
+                frazione:
+                  type: string
+                  description: 'Descrizione area.'
+                  example: null
+                particella_top:
+                  type: string
+                  description: 'Descrizione della particella toponomastica.'
+                  example: null
+                indirizzo:
+                  type: string
+                  description: 'Descrizione della via.'
+                  example: null
+                civico:
+                  type: string
+                  description: 'Civico (EGON).'
+                  example: null
+                scala_palazzina:
+                  type: string
+                  description: 'Scala palazzina.'
+                  example: null
+                codice_via:
+                  type: string
+                  description: 'Codice via.'
+                  example: null
+                id_building:
+                  type: string
+                  description: 'Rappresenta la codifica univoca per ogni singolo civico.'
+                  example: null
+                coordinate_building:
+                  type: number
+                  description: 'Coordinate Building.'
+                  example: null
+                pop:
+                  type: string
+                  description: 'Nome descrittivo del POP di Zeus.'
+                  example: null
+                id_pop:
+                  type: number
+                  description: 'Rappresenta l’identificativo univoco in Zeus del POP.'
+                  example: null
+                totale_ui:
+                  type: number
+                  description: 'Totale delle unità immobiliari.'
+                  example: null
+                stato_ui:
+                  type: number
+                  description: 'Codice identificativo stati UI (Unità immobiliari).'
+                  example: null
+                stato_building:
+                  type: number
+                  description: 'Codice identificativo stati Building.'
+                  example: null
+                stato_scala_palazzina:
+                  type: number
+                  description: 'Codice identificativo stati Scala Palazzina.'
+                  example: null
+                data_rfc_indicativa:
+                  type: date
+                  description: 'Data indicativa RFC.'
+                  example: null
+                data_rfc_effettiva:
+                  type: date
+                  description: 'Data effettiva RFC.'
+                  example: null
+                data_rfa_indicativa:
+                  type: date
+                  description: 'Data indicativa RFA.'
+                  example: null
+                data_rfa_effettiva:
+                  type: date
+                  description: 'Data effettiva RFA.'
+                  example: null
+                id_egon_civico:
+                  type: number
+                  description: 'Codice EGON civico.'
+                  example: null
+                id_egon_strada:
+                  type: number
+                  description: 'Codice EGON strada.'
+                  example: null
+                geo_lat:
+                  type: number
+                  description: 'Coordinate geografiche latitudine.'
+                  example: null
+                geo_long:
+                  type: number
+                  description: 'Coordinate geografiche longitudine.'
+                  example: null
+                gpon:
+                  type: integer
+                  description: 'Tecnologia GPON disponibile.'
+                  example: null
+                ftth:
+                  type: integer
+                  description: 'Tecnologia FTTH disponibile.'
+                  example: null
+                master_slave:
+                  type: integer
+                  description: 'Identificativo Master o Slave.'
+                  example: null
+                pfs:
+                  type: string
+                  description: 'Punto flessibilità secondario.'
+                  example: null
+                pte:
+                  type: string
+                  description: 'Punto di terminazione di edificio.'
+                  example: null
+                idzona:
+                  type: number
+                  description: 'Identificativo univoco zona Unidata Zeus.'
+                  example: null
+                denom_zona:
+                  type: string
+                  description: 'Denominazione zona Unidata Zeus.'
+                  example: null
+              required:
+                - id_scala
+                - regione
+                - provincia
+                - comune
+                - comune_descrizione
+                - indirizzo
+                - codice_via
+                - id_building
+                - pop
+                - id_pop
+                - stato_building
+                - stato_scala_palazzina
+                - id_egon_civico
+                - id_egon_strada
+                - idzona
+                - denom_zona
+tags:
+  -
+    name: API
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: basic
+      description: ''
+security:
+  -
+    default: []

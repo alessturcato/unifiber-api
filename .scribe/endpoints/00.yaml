@@ -1,0 +1,295 @@
+name: API
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/coperture_unifiber_test/ricerca
+    metadata:
+      title: 'Ricerca delle coperture'
+      description: 'Ricerca una copertura Unifiber mediante i campi provincia, comune, particella, indirizzo e civico. Vengono restituiti 100 massimo risultati per chiamata con possibilità di paginazione. '
+      authenticated: true
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: 
+      page:
+          name: page
+          description: Numero di pagina.
+          required: false
+          type: number
+    bodyParameters:
+      id_scala:
+        name: id_scala
+        description: Rappresenta la codifica univoca per ogni singolo civico.
+        required: false
+        type: string
+      provincia:
+        name: provincia
+        description: Codice istat provincia.
+        required: false
+        type: string
+      comune:
+        name: comune
+        description: Codice istat comune.
+        required: false
+        type: string
+      particella_top:
+        name: particella_top
+        description: Descrizione della particella toponomastica.
+        required: false
+        type: string
+      indirizzo:
+        name: indirizzo
+        description: Descrizione della via (EGON).
+        required: false
+        type: string
+      per_page:
+        name: per_page
+        description: Risultati restituiti per pagina. Default 100.
+        required: false
+        type: number
+    responses:
+      -
+        status: 401
+        content: '{"message": "Non sei autorizzato. User o password errati."}'
+        headers:
+          www-authenticate: Basic
+          # cache-control: 'no-cache, private'
+          content-type: application/json
+          # x-ratelimit-limit: '60'
+          # x-ratelimit-remaining: '56'
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/coperture_unifiber_test/storico/{id}'
+    metadata:
+      title: 'Controllo lo storico di una copertura.'
+      description: 'Ricerca una copertura Unifiber mediante i campi id e ritorna lo storico dei cambiamenti subiti dalla registrazione di copertura dalla sua creazione.'
+      authenticated: true
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'Identificativo della copertura. Viene restuito durante la chiamata di inserimento/aggiornamento e di verifica.'
+        required: true
+        # example: non
+        type: number
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message": "Non sei autorizzato. User o password errati."}'
+        headers:
+          www-authenticate: Basic
+          # cache-control: 'no-cache, private'
+          content-type: application/json
+          # x-ratelimit-limit: '60'
+          # x-ratelimit-remaining: '55'
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/coperture_unifiber_test/registra
+    metadata:
+      title: 'Registra o aggiorna una copertura nel database.'
+      description: 'Inserisce o aggiorna una copertura unifiber. Il sistema genera l’aggiornamento della copertura basandosi sulla chiave primaria composta dai campi id_scala.'
+      authenticated: true
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: 
+      id_scala:
+        name: id_scala
+        description: Rappresenta la codifica univoca per ogni singolo civico.
+        required: true
+        type: string
+      regione:
+        name: regione
+        description: Codice istat regione.
+        required: true
+        type: number
+      provincia:
+        name: provincia
+        description: Codice istat provincia.
+        required: true
+        type: number
+      comune:
+        name: comune
+        description: Codice istat comune.
+        required: true
+        type: number
+      comune_descrizione:
+        name: comune_descrizione
+        description: Nome esteso del comune.
+        required: true
+        type: string
+      frazione:
+        name: frazione
+        description: Descrizione area.
+        required: false
+        type: string
+      particella_top:
+        name: particella_top
+        description: Descrizione della particella toponomastica.
+        required: false
+        type: string
+      indirizzo:
+        name: indirizzo
+        description: Descrizione della via.
+        required: true
+        type: string
+      civico:
+        name: civico
+        description: Civico (EGON).
+        required: false
+        type: string
+      scala_palazzina:
+        name: scala_palazzina
+        description: Scala palazzina.
+        required: false
+        type: string
+      codice_via:
+        name: codice_via
+        description: Codice via.
+        required: true
+        type: string
+      id_building:
+        name: id_building
+        description: Rappresenta la codifica univoca per ogni singolo civico.
+        required: true
+        type: string
+      coordinate_building:
+        name: coordinate_building
+        description: Coordinate Building.
+        required: false
+        type: number
+      pop:
+        name: pop
+        description: Nome descrittivo del POP di Zeus.
+        required: true
+        type: string
+      id_pop:
+        name: id_pop
+        description: Rappresenta l’identificativo univoco in Zeus del POP.
+        required: true
+        type: number
+      totale_ui:
+        name: totale_ui
+        description: Totale delle unità immobiliari.
+        required: false
+        type: number
+      stato_ui:
+        name: stato_ui
+        description: Codice identificativo stati UI (Unità immobiliari).
+        required: false
+        type: number
+      stato_building:
+        name: stato_building
+        description: Codice identificativo stati Building.
+        required: true
+        type: number
+      stato_scala_palazzina:
+        name: stato_scala_palazzina
+        description: Codice identificativo stati Scala Palazzina.
+        required: true
+        type: number
+      data_rfc_indicativa:
+        name: data_rfc_indicativa
+        description: Data indicativa RFC.
+        required: false
+        type: date
+      data_rfc_effettiva:
+        name: data_rfc_effettiva
+        description: Data effettiva RFC.
+        required: false
+        type: date
+      data_rfa_indicativa:
+        name: data_rfa_indicativa
+        description: Data indicativa RFA.
+        required: false
+        type: date
+      data_rfa_effettiva:
+        name: data_rfa_effettiva
+        description: Data effettiva RFA.
+        required: false
+        type: date
+      id_egon_civico:
+        name: id_egon_civico
+        description: Codice EGON civico.
+        required: true
+        type: number
+      id_egon_strada:
+        name: id_egon_strada
+        description: Codice EGON strada.
+        required: true
+        type: number
+      geo_lat:
+        name: geo_lat
+        description: Coordinate geografiche latitudine.
+        required: false
+        type: number
+      geo_long:
+        name: geo_long
+        description: Coordinate geografiche longitudine.
+        required: false
+        type: number
+      gpon:
+        name: gpon
+        description: Tecnologia GPON disponibile.
+        required: false
+        type: int
+      ftth:
+        name: ftth
+        description: Tecnologia FTTH disponibile.
+        required: false
+        type: int
+      master_slave:
+        name: master_slave
+        description: Identificativo Master o Slave.
+        required: false
+        type: int
+      pfs:
+        name: pfs
+        description: Punto flessibilità secondario.
+        required: false
+        type: string
+      pte:
+        name: pte
+        description: Punto di terminazione di edificio.
+        required: false
+        type: string
+      idzona:
+        name: idzona
+        description: Identificativo univoco zona Unidata Zeus.
+        required: true
+        type: number
+      denom_zona:
+        name: denom_zona
+        description: Denominazione zona Unidata Zeus.
+        required: true
+        type: string
+    responses:
+      -
+        status: 401
+        content: '{"message": "Non sei autorizzato. User o password errati."}'
+        headers:
+          www-authenticate: Basic
+          # cache-control: 'no-cache, private'
+          content-type: application/json
+          # x-ratelimit-limit: '60'
+          # x-ratelimit-remaining: '54'
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []

@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Api-Gestione-Coperture-Unifiber Documentation</title>
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+    <script src="../docs/js/theme-default-3.11.1.js"></script>
+
+    <link rel="stylesheet"
+          href="//unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <script src="//unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="//cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script>
+        var baseUrl = "http://localhost:8301";
+        var useCsrf = Boolean();
+        var csrfUrl = "/sanctum/csrf-cookie";
+    </script>
+    <script src="../docs/js/tryitout-3.11.1.js"></script>
+
+</head>
+
+<body data-languages="[&quot;php&quot;,&quot;bash&quot;,&quot;javascript&quot;,&quot;python&quot;]">
+<a href="#" id="nav-button">
+      <span>
+        MENU
+        <img src="../docs/images/navbar.png" alt="navbar-image" />
+      </span>
+</a>
+<div class="tocify-wrapper">
+        <img src="./images/logo_unifiber_2.png" alt="logo" class="logo" style="padding:10px;" width="170px" />
+                <div class="lang-selector">
+                            <a href="#" data-language-name="php">php</a>
+                            <a href="#" data-language-name="bash">bash</a>
+                            <a href="#" data-language-name="javascript">javascript</a>
+                            <a href="#" data-language-name="python">python</a>
+                    </div>
+        <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+    <ul class="search-results"></ul>
+
+    <ul id="toc">
+    </ul>
+
+            <ul class="toc-footer" id="toc-footer">
+                            <li><a href="../docs/collection.json">View Postman collection</a></li>
+                            <li><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+                    </ul>
+            <ul class="toc-footer" id="last-updated">
+            <li>Last updated: October 12 2021</li>
+        </ul>
+</div>
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1>Introduzione</h1>
+<p>Questa documentazione mira a fornire tutte le informazioni necessarie per lavorare con le API di gestione coperture Unifiber.</p>
+<aside>Mentre scorri, vedrai esempi di codice per lavorare con l'API in diversi linguaggi di programmazione nell'area scura a destra (o come parte del contenuto su dispositivi mobili).
+Puoi cambiare il linguaggio utilizzato con le schede in alto a destra (o dal menu di navigazione in alto a sinistra sul cellulare).</aside>
+<blockquote>
+<p>Base URL</p>
+</blockquote>
+<pre><code class="language-yaml">http://localhost:8301</code></pre>
+
+        <h1>Autenticazione</h1>
+<p>Per essere autenticati nelle chiamate, è necessario includereun header <strong><code>Authorization</code></strong> nella forma <strong><code>"Basic {credentials}"</code></strong>. Il valore di <code>{credentials}</code> deve essere nomeUtente e password, uniti da due punti (:), e codificati in base64. <strong><code>Ex Basic base64(utente:password)</code></strong></p>
+<p>Tutti gli endpoint autenticati sono contrassegnati con un badge <code>richiede autenticazione</code> nella documentazione di seguito.</p>
+<p>
+    <span><b>Crea il tuo header</b></span><br>
+    Inserisci nome utente e password e genera l'header da usare durante le chiamate<br>
+    <input type="text" id="name" name="name" placeholder="Nome...">&nbsp;
+    <input type="password" id="password" name="password" placeholder="Password...">&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button"
+            style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+            onclick="generateHeader('cancel', this)"><b>Reset</b>
+    </button>&nbsp;&nbsp;
+    <button type="button"
+            style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+            onclick="generateHeader('genera',this)"><b>Genera</b> 💥
+    </button><br>
+    <input type="checkbox" onclick="showPassword()"> <i>Mostra Password</i> <br>
+    <input type="text" id="result" name="result" placeholder="Authorization header..." readonly style="width:250px;"><br><br>
+</p>
+
+        <h1 id="api">API</h1>
+
+    
+
+            <h2 id="api-POSTapi-v1-coperture_unifiber_test-ricerca">Ricerca delle coperture</h2>
+
+<p>
+<small class="badge badge-darkred">richiede autenticazione</small>
+</p>
+
+<p>Ricerca una copertura Unifiber mediante i campi provincia, comune, particella, indirizzo e civico. Vengono restituiti 100 massimo risultati per chiamata con possibilità di paginazione. </p>
+
+<span id="example-requests-POSTapi-v1-coperture_unifiber_test-ricerca">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'http://localhost:8301/api/v1/coperture_unifiber_test/ricerca',
+    [
+        'headers' =&gt; [
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+
+<pre><code class="language-bash">curl --request POST \
+    "http://localhost:8301/api/v1/coperture_unifiber_test/ricerca" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8301/api/v1/coperture_unifiber_test/ricerca"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-python">import requests
+import json
+
+url = 'http://localhost:8301/api/v1/coperture_unifiber_test/ricerca'
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('POST', url, headers=headers)
+response.json()</code></pre>
+</span>
+
+<span id="example-responses-POSTapi-v1-coperture_unifiber_test-ricerca">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">www-authenticate: Basic
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Non sei autorizzato. User o password errati.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-coperture_unifiber_test-ricerca" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-coperture_unifiber_test-ricerca"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-coperture_unifiber_test-ricerca"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-coperture_unifiber_test-ricerca" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-coperture_unifiber_test-ricerca"></code></pre>
+</span>
+<form id="form-POSTapi-v1-coperture_unifiber_test-ricerca" data-method="POST"
+      data-path="api/v1/coperture_unifiber_test/ricerca"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-coperture_unifiber_test-ricerca', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-coperture_unifiber_test-ricerca"
+                    onclick="tryItOut('POSTapi-v1-coperture_unifiber_test-ricerca');">Prova ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-coperture_unifiber_test-ricerca"
+                    onclick="cancelTryOut('POSTapi-v1-coperture_unifiber_test-ricerca');" hidden>Reset
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-coperture_unifiber_test-ricerca" hidden>Invia richiesta 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/coperture_unifiber_test/ricerca</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-coperture_unifiber_test-ricerca" hidden>Authorization header:
+                <b><code>Basic </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Basic "
+                                                                data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+                                                                data-component="header"></label>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="query"  hidden>
+    <br>
+<p>Numero di pagina.</p>            </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id_scala</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="id_scala"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="body"  hidden>
+    <br>
+<p>Rappresenta la codifica univoca per ogni singolo civico.</p>        </p>
+                <p>
+            <b><code>provincia</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="provincia"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="body"  hidden>
+    <br>
+<p>Codice istat provincia.</p>        </p>
+                <p>
+            <b><code>comune</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="comune"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="body"  hidden>
+    <br>
+<p>Codice istat comune.</p>        </p>
+                <p>
+            <b><code>particella_top</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="particella_top"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="body"  hidden>
+    <br>
+<p>Descrizione della particella toponomastica.</p>        </p>
+                <p>
+            <b><code>indirizzo</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="indirizzo"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="body"  hidden>
+    <br>
+<p>Descrizione della via (EGON).</p>        </p>
+                <p>
+            <b><code>per_page</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="per_page"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-ricerca"
+               data-component="body"  hidden>
+    <br>
+<p>Risultati restituiti per pagina. Default 100.</p>        </p>
+    
+    </form>
+
+            <h2 id="api-GETapi-v1-coperture_unifiber_test-storico--id-">Controllo lo storico di una copertura.</h2>
+
+<p>
+<small class="badge badge-darkred">richiede autenticazione</small>
+</p>
+
+<p>Ricerca una copertura Unifiber mediante i campi id e ritorna lo storico dei cambiamenti subiti dalla registrazione di copertura dalla sua creazione.</p>
+
+<span id="example-requests-GETapi-v1-coperture_unifiber_test-storico--id-">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;get(
+    'http://localhost:8301/api/v1/coperture_unifiber_test/storico/',
+    [
+        'headers' =&gt; [
+            'Accept' =&gt; 'application/json',
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+
+<pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8301/api/v1/coperture_unifiber_test/storico/" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8301/api/v1/coperture_unifiber_test/storico/"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-python">import requests
+import json
+
+url = 'http://localhost:8301/api/v1/coperture_unifiber_test/storico/'
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('GET', url, headers=headers)
+response.json()</code></pre>
+</span>
+
+<span id="example-responses-GETapi-v1-coperture_unifiber_test-storico--id-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">www-authenticate: Basic
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Non sei autorizzato. User o password errati.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-coperture_unifiber_test-storico--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-coperture_unifiber_test-storico--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-coperture_unifiber_test-storico--id-"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-coperture_unifiber_test-storico--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-coperture_unifiber_test-storico--id-"></code></pre>
+</span>
+<form id="form-GETapi-v1-coperture_unifiber_test-storico--id-" data-method="GET"
+      data-path="api/v1/coperture_unifiber_test/storico/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-coperture_unifiber_test-storico--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-coperture_unifiber_test-storico--id-"
+                    onclick="tryItOut('GETapi-v1-coperture_unifiber_test-storico--id-');">Prova ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-coperture_unifiber_test-storico--id-"
+                    onclick="cancelTryOut('GETapi-v1-coperture_unifiber_test-storico--id-');" hidden>Reset
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-coperture_unifiber_test-storico--id-" hidden>Invia richiesta 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/coperture_unifiber_test/storico/{id}</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-coperture_unifiber_test-storico--id-" hidden>Authorization header:
+                <b><code>Basic </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Basic "
+                                                                data-endpoint="GETapi-v1-coperture_unifiber_test-storico--id-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="GETapi-v1-coperture_unifiber_test-storico--id-"
+               data-component="url" required  hidden>
+    <br>
+<p>Identificativo della copertura. Viene restuito durante la chiamata di inserimento/aggiornamento e di verifica.</p>            </p>
+                    </form>
+
+            <h2 id="api-POSTapi-v1-coperture_unifiber_test-registra">Registra o aggiorna una copertura nel database.</h2>
+
+<p>
+<small class="badge badge-darkred">richiede autenticazione</small>
+</p>
+
+<p>Inserisce o aggiorna una copertura unifiber. Il sistema genera l’aggiornamento della copertura basandosi sulla chiave primaria composta dai campi id_scala.</p>
+
+<span id="example-requests-POSTapi-v1-coperture_unifiber_test-registra">
+<blockquote>Example request:</blockquote>
+
+
+<pre><code class="language-php">$client = new \GuzzleHttp\Client();
+$response = $client-&gt;post(
+    'http://localhost:8301/api/v1/coperture_unifiber_test/registra',
+    [
+        'headers' =&gt; [
+            'Accept' =&gt; 'application/json',
+        ],
+        'json' =&gt; [
+            'id_scala' =&gt; null,
+            'regione' =&gt; null,
+            'provincia' =&gt; null,
+            'comune' =&gt; null,
+            'comune_descrizione' =&gt; null,
+            'indirizzo' =&gt; null,
+            'codice_via' =&gt; null,
+            'id_building' =&gt; null,
+            'pop' =&gt; null,
+            'id_pop' =&gt; null,
+            'stato_building' =&gt; null,
+            'stato_scala_palazzina' =&gt; null,
+            'id_egon_civico' =&gt; null,
+            'id_egon_strada' =&gt; null,
+            'idzona' =&gt; null,
+            'denom_zona' =&gt; null,
+        ],
+    ]
+);
+$body = $response-&gt;getBody();
+print_r(json_decode((string) $body));</code></pre>
+
+<pre><code class="language-bash">curl --request POST \
+    "http://localhost:8301/api/v1/coperture_unifiber_test/registra" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"id_scala\": null,
+    \"regione\": null,
+    \"provincia\": null,
+    \"comune\": null,
+    \"comune_descrizione\": null,
+    \"indirizzo\": null,
+    \"codice_via\": null,
+    \"id_building\": null,
+    \"pop\": null,
+    \"id_pop\": null,
+    \"stato_building\": null,
+    \"stato_scala_palazzina\": null,
+    \"id_egon_civico\": null,
+    \"id_egon_strada\": null,
+    \"idzona\": null,
+    \"denom_zona\": null
+}"
+</code></pre>
+
+<pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8301/api/v1/coperture_unifiber_test/registra"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id_scala": null,
+    "regione": null,
+    "provincia": null,
+    "comune": null,
+    "comune_descrizione": null,
+    "indirizzo": null,
+    "codice_via": null,
+    "id_building": null,
+    "pop": null,
+    "id_pop": null,
+    "stato_building": null,
+    "stato_scala_palazzina": null,
+    "id_egon_civico": null,
+    "id_egon_strada": null,
+    "idzona": null,
+    "denom_zona": null
+}
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre>
+
+<pre><code class="language-python">import requests
+import json
+
+url = 'http://localhost:8301/api/v1/coperture_unifiber_test/registra'
+payload = {
+    "id_scala": null,
+    "regione": null,
+    "provincia": null,
+    "comune": null,
+    "comune_descrizione": null,
+    "indirizzo": null,
+    "codice_via": null,
+    "id_building": null,
+    "pop": null,
+    "id_pop": null,
+    "stato_building": null,
+    "stato_scala_palazzina": null,
+    "id_egon_civico": null,
+    "id_egon_strada": null,
+    "idzona": null,
+    "denom_zona": null
+}
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+response = requests.request('POST', url, headers=headers, json=payload)
+response.json()</code></pre>
+</span>
+
+<span id="example-responses-POSTapi-v1-coperture_unifiber_test-registra">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">www-authenticate: Basic
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Non sei autorizzato. User o password errati.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-coperture_unifiber_test-registra" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-coperture_unifiber_test-registra"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-coperture_unifiber_test-registra"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-coperture_unifiber_test-registra" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-coperture_unifiber_test-registra"></code></pre>
+</span>
+<form id="form-POSTapi-v1-coperture_unifiber_test-registra" data-method="POST"
+      data-path="api/v1/coperture_unifiber_test/registra"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-coperture_unifiber_test-registra', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-coperture_unifiber_test-registra"
+                    onclick="tryItOut('POSTapi-v1-coperture_unifiber_test-registra');">Prova ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-coperture_unifiber_test-registra"
+                    onclick="cancelTryOut('POSTapi-v1-coperture_unifiber_test-registra');" hidden>Reset
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-coperture_unifiber_test-registra" hidden>Invia richiesta 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/coperture_unifiber_test/registra</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-coperture_unifiber_test-registra" hidden>Authorization header:
+                <b><code>Basic </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Basic "
+                                                                data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>id_scala</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id_scala"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Rappresenta la codifica univoca per ogni singolo civico.</p>        </p>
+                <p>
+            <b><code>regione</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="regione"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice istat regione.</p>        </p>
+                <p>
+            <b><code>provincia</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="provincia"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice istat provincia.</p>        </p>
+                <p>
+            <b><code>comune</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="comune"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice istat comune.</p>        </p>
+                <p>
+            <b><code>comune_descrizione</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="comune_descrizione"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Nome esteso del comune.</p>        </p>
+                <p>
+            <b><code>frazione</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="frazione"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Descrizione area.</p>        </p>
+                <p>
+            <b><code>particella_top</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="particella_top"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Descrizione della particella toponomastica.</p>        </p>
+                <p>
+            <b><code>indirizzo</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="indirizzo"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Descrizione della via.</p>        </p>
+                <p>
+            <b><code>civico</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="civico"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Civico (EGON).</p>        </p>
+                <p>
+            <b><code>scala_palazzina</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="scala_palazzina"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Scala palazzina.</p>        </p>
+                <p>
+            <b><code>codice_via</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="codice_via"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice via.</p>        </p>
+                <p>
+            <b><code>id_building</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="id_building"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Rappresenta la codifica univoca per ogni singolo civico.</p>        </p>
+                <p>
+            <b><code>coordinate_building</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="coordinate_building"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Coordinate Building.</p>        </p>
+                <p>
+            <b><code>pop</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="pop"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Nome descrittivo del POP di Zeus.</p>        </p>
+                <p>
+            <b><code>id_pop</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="id_pop"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Rappresenta l’identificativo univoco in Zeus del POP.</p>        </p>
+                <p>
+            <b><code>totale_ui</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="totale_ui"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Totale delle unità immobiliari.</p>        </p>
+                <p>
+            <b><code>stato_ui</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="stato_ui"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Codice identificativo stati UI (Unità immobiliari).</p>        </p>
+                <p>
+            <b><code>stato_building</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="stato_building"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice identificativo stati Building.</p>        </p>
+                <p>
+            <b><code>stato_scala_palazzina</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="stato_scala_palazzina"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice identificativo stati Scala Palazzina.</p>        </p>
+                <p>
+            <b><code>data_rfc_indicativa</code></b>&nbsp;&nbsp;<small>date</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="data_rfc_indicativa"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Data indicativa RFC.</p>        </p>
+                <p>
+            <b><code>data_rfc_effettiva</code></b>&nbsp;&nbsp;<small>date</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="data_rfc_effettiva"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Data effettiva RFC.</p>        </p>
+                <p>
+            <b><code>data_rfa_indicativa</code></b>&nbsp;&nbsp;<small>date</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="data_rfa_indicativa"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Data indicativa RFA.</p>        </p>
+                <p>
+            <b><code>data_rfa_effettiva</code></b>&nbsp;&nbsp;<small>date</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="data_rfa_effettiva"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Data effettiva RFA.</p>        </p>
+                <p>
+            <b><code>id_egon_civico</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="id_egon_civico"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice EGON civico.</p>        </p>
+                <p>
+            <b><code>id_egon_strada</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="id_egon_strada"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Codice EGON strada.</p>        </p>
+                <p>
+            <b><code>geo_lat</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="geo_lat"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Coordinate geografiche latitudine.</p>        </p>
+                <p>
+            <b><code>geo_long</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="geo_long"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Coordinate geografiche longitudine.</p>        </p>
+                <p>
+            <b><code>gpon</code></b>&nbsp;&nbsp;<small>int</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="gpon"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Tecnologia GPON disponibile.</p>        </p>
+                <p>
+            <b><code>ftth</code></b>&nbsp;&nbsp;<small>int</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="ftth"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Tecnologia FTTH disponibile.</p>        </p>
+                <p>
+            <b><code>master_slave</code></b>&nbsp;&nbsp;<small>int</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="master_slave"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Identificativo Master o Slave.</p>        </p>
+                <p>
+            <b><code>pfs</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="pfs"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Punto flessibilità secondario.</p>        </p>
+                <p>
+            <b><code>pte</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="pte"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body"  hidden>
+    <br>
+<p>Punto di terminazione di edificio.</p>        </p>
+                <p>
+            <b><code>idzona</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="idzona"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Identificativo univoco zona Unidata Zeus.</p>        </p>
+                <p>
+            <b><code>denom_zona</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="denom_zona"
+               data-endpoint="POSTapi-v1-coperture_unifiber_test-registra"
+               data-component="body" required  hidden>
+    <br>
+<p>Denominazione zona Unidata Zeus.</p>        </p>
+    
+    </form>
+
+    
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                    <a href="#" data-language-name="php">php</a>
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                                    <a href="#" data-language-name="python">python</a>
+                            </div>
+            </div>
+</div>
+<script>
+    $(function () {
+        var exampleLanguages = ["php","bash","javascript","python"];
+        setupLanguages(exampleLanguages);
+    });
+</script>
+</body>
+</html>

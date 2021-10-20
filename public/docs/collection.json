@@ -1,0 +1,187 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "localhost"
+        }
+    ],
+    "info": {
+        "name": "Api-Gestione-Coperture-Unifiber",
+        "_postman_id": "08ad9237-d073-45c2-8408-faec341dcf82",
+        "description": "Api per la gestione delle coperture Unifiber. Registrazione, Recupero e Versione.",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "API",
+            "description": "",
+            "item": [
+                {
+                    "name": "Ricerca delle coperture",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/coperture_unifiber_test\/ricerca",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "",
+                                    "description": "Numero di pagina.",
+                                    "disabled": true
+                                }
+                            ],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/coperture_unifiber_test\/ricerca?page="
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "[]"
+                        },
+                        "description": "Ricerca una copertura Unifiber mediante i campi provincia, comune, particella, indirizzo e civico. Vengono restituiti 100 massimo risultati per chiamata con possibilit\u00e0 di paginazione. "
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "www-authenticate",
+                                    "value": "Basic"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\": \"Non sei autorizzato. User o password errati.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Controllo lo storico di una copertura.",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/coperture_unifiber_test\/storico\/:id",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/coperture_unifiber_test\/storico\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "",
+                                    "description": "Identificativo della copertura. Viene restuito durante la chiamata di inserimento\/aggiornamento e di verifica."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Ricerca una copertura Unifiber mediante i campi id e ritorna lo storico dei cambiamenti subiti dalla registrazione di copertura dalla sua creazione."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "www-authenticate",
+                                    "value": "Basic"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\": \"Non sei autorizzato. User o password errati.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Registra o aggiorna una copertura nel database.",
+                    "request": {
+                        "url": {
+                            "protocol": "http",
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/coperture_unifiber_test\/registra",
+                            "query": [],
+                            "raw": "http:\/\/{{baseUrl}}\/api\/v1\/coperture_unifiber_test\/registra"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"id_scala\":null,\"regione\":null,\"provincia\":null,\"comune\":null,\"comune_descrizione\":null,\"indirizzo\":null,\"codice_via\":null,\"id_building\":null,\"pop\":null,\"id_pop\":null,\"stato_building\":null,\"stato_scala_palazzina\":null,\"id_egon_civico\":null,\"id_egon_strada\":null,\"idzona\":null,\"denom_zona\":null}"
+                        },
+                        "description": "Inserisce o aggiorna una copertura unifiber. Il sistema genera l\u2019aggiornamento della copertura basandosi sulla chiave primaria composta dai campi id_scala."
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "www-authenticate",
+                                    "value": "Basic"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\": \"Non sei autorizzato. User o password errati.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "basic"
+    }
+}
